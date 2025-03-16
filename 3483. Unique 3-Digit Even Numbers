@@ -1,0 +1,48 @@
+
+Question link:- https://leetcode.com/problems/unique-3-digit-even-numbers/description/
+
+class Solution {
+public:
+    set<int> st;
+    bool valid(int num){
+        int cnt = 0;
+        while(num){
+            cnt++;
+            num = num/10;
+        }
+        return cnt == 3;
+    }
+    void permute(int idx, string& s){
+        if(idx >= s.size()){
+            int num = stoi(s);
+            if(num%2 == 0 && valid(num)){
+                st.insert(num);
+            }
+            return;
+        }
+        for(int i=idx; i<s.size(); i++){
+            swap(s[i], s[idx]);
+            permute(idx+1, s);
+            swap(s[i], s[idx]);
+        }
+    }
+    int totalNumbers(vector<int>& digits) {
+       int n = digits.size();
+       int cnt = 0;
+       vector<string> arr;
+       for(int i=0; i<n; i++){
+           string a = to_string(digits[i]);
+           for(int j=i+1; j<n; j++){
+               string b = to_string(digits[j]);
+               for(int k=j+1; k<n; k++){
+                   string c = to_string(digits[k]);
+                   arr.push_back(a+b+c);
+               }
+           }
+       } 
+        for(auto it : arr){
+            permute(0, it);
+        }
+        return st.size();
+    }
+};
