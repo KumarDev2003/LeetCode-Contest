@@ -1,0 +1,34 @@
+Question link:- https://leetcode.com/problems/closest-equal-element-queries/description/
+
+class Solution {
+public:
+    vector<int> solveQueries(vector<int>& nums, vector<int>& queries) {
+        int n = nums.size();
+        unordered_map<int, vector<int>> mp;
+        for(int i=0; i<n; i++){
+            mp[nums[i]].push_back(i);
+        }
+        int m = queries.size();
+        vector<int> ans(m, INT_MAX);
+        for(int i=0; i<m; i++){
+            int idx = queries[i];
+            vector<int>& arr = mp[nums[idx]];
+            int k = arr.size();
+            int pos = lower_bound(arr.begin(), arr.end(), idx) - arr.begin();
+            if(pos-1 >= 0){
+                ans[i] = arr[pos] - arr[pos-1];
+            }
+            if(pos+1 < k){
+                ans[i] = min(ans[i], arr[pos+1] - arr[pos]);
+            }
+            if(pos == k-1 && k > 1){
+                ans[i] = min(ans[i], n-arr[pos] + arr[0]);
+            }
+            if(pos == 0 && k > 1){
+                ans[i] = min(ans[i], arr[0] + n-arr[k-1]);
+            }
+        }
+        for(auto& it : ans) if(it == INT_MAX) it = -1;
+        return ans;
+    }
+};
