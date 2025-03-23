@@ -1,0 +1,11 @@
+Question link:- https://leetcode.com/problems/maximum-containers-on-a-ship/description/
+
+class Solution {
+public:
+    int maxContainers(int n, int w, int maxWeight) {
+        for(int i=n*n; i>=0; i--){
+            if(i*w <= maxWeight) return i;
+        }
+        return 0;
+    }
+};
