@@ -1,0 +1,18 @@
+Question link:- https://leetcode.com/problems/minimum-number-of-chairs-in-a-waiting-room/
+
+class Solution {
+public:
+    int minimumChairs(string s) {
+        int max_cnt = 0;
+        int cnt = 0;
+        for(const auto & it : s){
+            if(it == 'E'){
+                cnt++;
+            }else{
+                cnt--;
+            }
+            max_cnt = max(max_cnt, cnt);
+        }
+        return max_cnt;
+    }
+};
