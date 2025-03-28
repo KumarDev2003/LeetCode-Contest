@@ -1,0 +1,35 @@
+Question link:- https://leetcode.com/problems/lexicographically-minimum-string-after-removing-stars/description/
+
+struct Compare{
+    bool operator()(const pair<char, int>& a, const pair<char, int>& b){
+        if(a.first != b.first){
+            return a.first > b.first;
+        }else{
+            return a.second < b.second;
+        }
+    }
+};
+class Solution {
+public:
+    string clearStars(string s) {
+        int n = s.size();
+        vector<int> visit(n, 0);
+        priority_queue<pair<char, int>, vector<pair<char, int>>, Compare> pq;
+        for(int i=0; i<n; i++){
+            if(s[i] == '*'){
+                if(!pq.empty()){
+                    visit[pq.top().second] = 1;
+                    pq.pop();
+                }
+            }else{
+                pq.push({s[i], i});
+            }
+        }
+        string ans = "";
+        for(int i=0; i<n; i++){
+            if(s[i] == '*' || visit[i] == 1) continue;
+                ans += s[i];
+        }
+        return ans;
+    }
+};
